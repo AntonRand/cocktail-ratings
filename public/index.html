@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Ratings — Anton & Verity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <p class="eyebrow">Shared tasting notes</p>
+      <h1>Cocktail Ratings</h1>
+      <p class="subtitle">Rate each drink out of 10. Changes save automatically.</p>
+    </header>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-dot anton"></span>
+        <span>Anton</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot verity"></span>
+        <span>Verity</span>
+      </div>
+    </div>
+
+    <main id="cocktail-list" class="cocktail-list" aria-live="polite">
+      <p class="loading">Loading cocktails…</p>
+    </main>
+
+    <footer class="footer">
+      <p id="status" class="status" aria-live="polite"></p>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

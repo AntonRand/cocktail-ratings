@@ -1,0 +1,236 @@
+:root {
+  --bg: #faf9f7;
+  --surface: #ffffff;
+  --text: #8b7355;
+  --text-dark: #5c4a38;
+  --text-muted: #b5a48f;
+  --border: #e8e2da;
+  --anton: #c4a882;
+  --verity: #9aab8c;
+  --anton-bg: #f5efe8;
+  --verity-bg: #eef2ea;
+  --shadow: 0 12px 40px rgba(92, 74, 56, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.header h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.anton { background: var(--anton); }
+.legend-dot.verity { background: var(--verity); }
+
+.cocktail-list {
+  background: var(--surface);
+  border-radius: 2px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.cocktail-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.cocktail-row:last-child {
+  border-bottom: none;
+}
+
+.cocktail-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+.rating-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 88px;
+}
+
+.rating-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rating-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.rating-input {
+  width: 3.25rem;
+  padding: 0.4rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--text-dark);
+  background: var(--bg);
+  transition: border-color 0.15s, background 0.15s;
+  -moz-appearance: textfield;
+}
+
+.rating-input::-webkit-outer-spin-button,
+.rating-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.rating-input:focus {
+  outline: none;
+  border-color: var(--text-muted);
+}
+
+.rating-input.anton:focus {
+  background: var(--anton-bg);
+  border-color: var(--anton);
+}
+
+.rating-input.verity:focus {
+  background: var(--verity-bg);
+  border-color: var(--verity);
+}
+
+.rating-suffix {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.rating-input.saving {
+  opacity: 0.6;
+}
+
+.rating-input.saved {
+  animation: flash 0.4s ease;
+}
+
+@keyframes flash {
+  0% { background: #e8f5e9; }
+  100% { background: var(--bg); }
+}
+
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-height: 1.2rem;
+}
+
+.status.error {
+  color: #b85c5c;
+}
+
+@media (max-width: 560px) {
+  .cocktail-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1.25rem 1rem;
+  }
+
+  .ratings-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .legend {
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 561px) {
+  .rating-label {
+    display: none;
+  }
+
+  .ratings-group {
+    display: contents;
+  }
+}
