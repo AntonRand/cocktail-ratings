@@ -26,8 +26,22 @@ npm start
 
 Open http://localhost:3000
 
-Ratings are stored in `data/ratings.db` (SQLite).
+Ratings are stored in SQLite locally (`data/ratings.db`) or Postgres on Render (`DATABASE_URL`).
 
-## Deploy
+## Deploy to Render
 
-Works on any Node.js host with persistent disk (Railway, Render, Fly.io, etc.). Set `PORT` if needed.
+1. Add secrets to your Cursor environment:
+   - `RENDER_API_KEY` — from [Render API keys](https://dashboard.render.com/u/settings#api-keys)
+   - `GITHUB_TOKEN` — GitHub token with `repo` scope
+
+2. Run the deploy script:
+
+```bash
+npm install
+chmod +x scripts/deploy-render.sh
+./scripts/deploy-render.sh
+```
+
+The site will be available at **https://cocktail-ratings.onrender.com** once the deploy completes.
+
+Alternatively, connect the GitHub repo manually in the [Render Dashboard](https://dashboard.render.com) using the `render.yaml` Blueprint.

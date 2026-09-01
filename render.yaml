@@ -1,3 +1,8 @@
+databases:
+  - name: cocktail-ratings-db
+    plan: free
+    databaseName: cocktail_ratings
+
 services:
   - type: web
     name: cocktail-ratings
@@ -5,10 +10,11 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /api/ratings
     envVars:
       - key: NODE_ENV
         value: production
-    disk:
-      name: cocktail-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cocktail-ratings-db
+          property: connectionString
