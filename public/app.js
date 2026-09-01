@@ -33,7 +33,7 @@ async function saveRating(cocktailId, rater, score, input) {
     input.classList.remove('saving');
     input.classList.add('saved');
     setTimeout(() => input.classList.remove('saved'), 400);
-    setStatus('All changes saved');
+    setStatus('All changes saved ✨');
   } catch (err) {
     input.classList.remove('saving');
     setStatus(err.message, true);
@@ -45,7 +45,7 @@ function createRatingInput(cocktailId, rater, value, cssClass) {
   cell.className = 'rating-cell';
 
   const label = document.createElement('span');
-  label.className = 'rating-label';
+  label.className = `rating-label ${cssClass}`;
   label.textContent = rater;
 
   const wrap = document.createElement('div');
@@ -90,16 +90,31 @@ function renderCocktails(cocktails) {
   listEl.innerHTML = '';
 
   cocktails.forEach((cocktail) => {
-    const row = document.createElement('article');
-    row.className = 'cocktail-row';
+    const card = document.createElement('article');
+    card.className = 'cocktail-card';
+
+    const icon = document.createElement('div');
+    icon.className = 'cocktail-icon';
+    icon.style.background = `linear-gradient(135deg, ${cocktail.color}, ${cocktail.accent})`;
+    icon.textContent = cocktail.emoji || '🍹';
+    icon.setAttribute('aria-hidden', 'true');
+
+    const info = document.createElement('div');
+    info.className = 'cocktail-info';
 
     const name = document.createElement('h2');
     name.className = 'cocktail-name';
     name.textContent = cocktail.name;
 
+    const description = document.createElement('p');
+    description.className = 'cocktail-description';
+    description.textContent = cocktail.description || '';
+
+    info.appendChild(name);
+    if (cocktail.description) info.appendChild(description);
+
     const ratingsGroup = document.createElement('div');
     ratingsGroup.className = 'ratings-group';
-
     ratingsGroup.appendChild(
       createRatingInput(cocktail.id, 'Anton', cocktail.anton, 'anton')
     );
@@ -107,9 +122,10 @@ function renderCocktails(cocktails) {
       createRatingInput(cocktail.id, 'Verity', cocktail.verity, 'verity')
     );
 
-    row.appendChild(name);
-    row.appendChild(ratingsGroup);
-    listEl.appendChild(row);
+    card.appendChild(icon);
+    card.appendChild(info);
+    card.appendChild(ratingsGroup);
+    listEl.appendChild(card);
   });
 }
 
@@ -119,7 +135,8 @@ async function init() {
     renderCocktails(data.cocktails);
     setStatus('');
   } catch (err) {
-    listEl.innerHTML = '<p class="loading">Could not load cocktails. Please refresh.</p>';
+    listEl.innerHTML =
+      '<p class="loading">Could not load cocktails. Please refresh.</p>';
     setStatus(err.message, true);
   }
 }

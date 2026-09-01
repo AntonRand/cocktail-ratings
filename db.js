@@ -1,19 +1,18 @@
-const COCKTAILS = [
-  'Mojito',
-  'Gin Gin Mule',
-  'Old Fashioned',
-  'Aperol Spritz',
-  'Negroni',
-  'Hugo',
-  'Strawberry Margarita',
-  'Pina Colada',
-  'Mandarin Collins',
-  'The Strawberry Statement',
-  'Dark & Stormy',
-  'Garden of Eden',
-];
+const { COCKTAILS, COCKTAIL_BY_NAME } = require('./cocktails-data');
 
+const COCKTAIL_NAMES = COCKTAILS.map((c) => c.name);
 const RATERS = ['Anton', 'Verity'];
+
+function enrichCocktail(row) {
+  const meta = COCKTAIL_BY_NAME[row.name] || {};
+  return {
+    ...row,
+    description: meta.description || '',
+    emoji: meta.emoji || '🍹',
+    color: meta.color || '#818cf8',
+    accent: meta.accent || '#6366f1',
+  };
+}
 
 function createSqliteStore() {
   const fs = require('fs');
@@ -46,11 +45,11 @@ function createSqliteStore() {
   const insertCocktail = db.prepare(
     'INSERT OR IGNORE INTO cocktails (name, sort_order) VALUES (?, ?)'
   );
-  COCKTAILS.forEach((name, index) => insertCocktail.run(name, index));
+  COCKTAIL_NAMES.forEach((name, index) => insertCocktail.run(name, index));
 
   return {
     async getRatings() {
-      return db
+      const rows = db
         .prepare(
           `
           SELECT c.id, c.name,
@@ -63,6 +62,7 @@ function createSqliteStore() {
         `
         )
         .all();
+      return rows.map(enrichCocktail);
     },
 
     async getCocktail(id) {
@@ -117,7 +117,7 @@ function createPostgresStore(connectionString) {
       );
     `);
 
-    for (const [index, name] of COCKTAILS.entries()) {
+    for (const [index, name] of COCKTAIL_NAMES.entries()) {
       await pool.query(
         'INSERT INTO cocktails (name, sort_order) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING',
         [name, index]
@@ -138,7 +138,7 @@ function createPostgresStore(connectionString) {
         ORDER BY c.sort_order
       `
       );
-      return rows;
+      return rows.map(enrichCocktail);
     },
 
     async getCocktail(id) {
